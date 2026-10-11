@@ -1,0 +1,19 @@
+# Образец службы для systemd. Замените пути и пользователя на свои.
+# Положить в /etc/systemd/system/task-line.service, затем:
+#   sudo systemctl daemon-reload
+#   sudo systemctl enable --now task-line
+[Unit]
+Description=Линейка задач — служба правок страницы
+After=network.target
+
+[Service]
+Type=simple
+User=ubuntu
+WorkingDirectory=/home/ubuntu/task-line
+# --out — куда собрать страницу (та же папка, что отдаёт nginx)
+ExecStart=/usr/bin/python3 /home/ubuntu/task-line/scripts/линейка-сервис.py --out /var/www/task-line/index.html
+Restart=always
+RestartSec=3
+
+[Install]
+WantedBy=multi-user.target
